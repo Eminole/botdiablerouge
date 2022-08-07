@@ -1,4 +1,12 @@
 {
+  "name": "current",
+  "version": "1.0.0",
+  "description": "botdiscord",
+  "main": "index.js",
+
+  "engines": {
+      "node": "16.x"
+  },
   "dependencies": {
     "discord-bitfield-calculator": "1.0.0",
     "discord.js": "14.1.2",
