@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "botdiscord",
   "main": "index.js",
-
   "engines": {
-      "node": "16.x"
+    "node": "16.x"
   },
   "dependencies": {
     "discord-bitfield-calculator": "1.0.0",
@@ -13,6 +12,7 @@
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "16.0.1",
     "glob": "7.2.0",
-    "mongoose": "6.2.3"
+    "mongoose": "6.2.3",
+    "mysql": "2.18.1"
   }
 }
