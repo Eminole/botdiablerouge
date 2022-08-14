@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const dotenv = require('dotenv'); dotenv.config();
-const dblist = require('./dblist');
+const dblist = require('./dblistid');
 const mysql = require('mysql');
 const db = new mysql.createConnection({
     host: process.env.DB_HOST_TOKEN,
@@ -12,7 +12,7 @@ const db = new mysql.createConnection({
 
 module.exports = {
     name: 'addid',
-    category: 'utils',
+    category: 'bdd',
     permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ManageWebhooks],
     description: 'Ajoute une identité à la base de donnée',
     //run(client, message, args) {},

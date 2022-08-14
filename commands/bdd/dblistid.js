@@ -12,12 +12,25 @@ const db = new mysql.createConnection({
 
 module.exports = {
     name: 'listid',
-    category: 'utils',
+    category: 'bdd',
     permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ManageWebhooks],
     description: 'affiche la liste des ids',
     //run(client, message, args) {},
     async runInteraction(client, interaction) {
-        /*const listidembed = new EmbedBuilder()
+        let text = `Liste des Identités : \n`;
+        db.query(`SELECT Id, prenom , nom FROM Identite`, async (err, req) => {
+            if (err) throw err;
+            for ( ;req.length !== 0; ) {
+                const firstelement = req.shift();
+                text = `${text}- ID : \`${firstelement.Id}\`   =>Prénom : ${firstelement.prenom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}   =>Nom : ${firstelement.nom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+            };
+            interaction.reply({ content: `${text}`, ephemeral: true });
+        });        
+    }
+};
+
+
+/*const listidembed = new EmbedBuilder()
         .setColor('#B50B00')
         .addFields([{ name: 'Liste des Identités', value: `Liste des Identités :`}]);
 
@@ -32,14 +45,3 @@ module.exports = {
             };
             interaction.reply({ embeds : [listidembed], ephemeral: true });
         });*/
-        let text = `Liste des Identités : \n`;
-        db.query(`SELECT Id, prenom , nom FROM Identite`, async (err, req) => {
-            if (err) throw err;
-            for ( ;req.length !== 0; ) {
-                const firstelement = req.shift();
-                text = `${text}- ID : \`${firstelement.Id}\`   =>Prénom : ${firstelement.prenom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}   =>Nom : ${firstelement.nom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
-            };
-            interaction.reply({ content: `${text}`, ephemeral: true });
-        });        
-    }
-};
