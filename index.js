@@ -28,4 +28,5 @@ db.connect(function (err) {
     console.log('Le client est connecté à la base de données!');
 })
 
+
 client.login(process.env.DISCORD_TOKEN);

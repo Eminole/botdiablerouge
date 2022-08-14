@@ -17,13 +17,12 @@ module.exports = {
     description: 'affiche la liste des ids',
     //run(client, message, args) {},
     async runInteraction(client, interaction) {
-        const listidembed = new EmbedBuilder()
+        /*const listidembed = new EmbedBuilder()
         .setColor('#B50B00')
         .addFields([{ name: 'Liste des Identités', value: `Liste des Identités :`}]);
 
         db.query(`SELECT Id, prenom , nom FROM Identite`, async (err, req) => {
             if (err) throw err;
-            var test = '';
             for ( ;req.length !== 0; ) {
                 const firstelement = req.shift();
                 listidembed.addFields([{
@@ -32,6 +31,15 @@ module.exports = {
                 }]);
             };
             interaction.reply({ embeds : [listidembed], ephemeral: true });
-        });
+        });*/
+        let text = `Liste des Identités : \n`;
+        db.query(`SELECT Id, prenom , nom FROM Identite`, async (err, req) => {
+            if (err) throw err;
+            for ( ;req.length !== 0; ) {
+                const firstelement = req.shift();
+                text = `${text}- ID : \`${firstelement.Id}\`   =>Prénom : ${firstelement.prenom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}   =>Nom : ${firstelement.nom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+            };
+            interaction.reply({ content: `${text}`, ephemeral: true });
+        });        
     }
 };
