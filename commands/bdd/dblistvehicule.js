@@ -26,13 +26,13 @@ module.exports = {
                     text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : Non enregistré\n`;
                 } else if (req[0].type === 'null' && req[0].couleur !== 'null') {
                     const firstelement = req.shift();
-                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : ${firstelement.couleur.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : ${firstelement.couleur.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
                 } else if (req[0].type !== 'null' && req[0].couleur === 'null') {
                     const firstelement = req.shift();
                     text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : ${firstelement.type}   =>Couleur : Non enregistré\n`;
                 } else {
                     const firstelement = req.shift();
-                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : ${firstelement.type}   =>Couleur : ${firstelement.couleur.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : ${firstelement.type}   =>Couleur : ${firstelement.couleur.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
                 }
             };
             interaction.reply({ content: `${text}`, ephemeral: true });

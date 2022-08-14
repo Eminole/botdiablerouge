@@ -49,7 +49,7 @@ module.exports = {
             if (JSON.stringify(result[0]).substr(-2, 1) === "1") {
                 interaction.reply({ content: `Vehicule avec la plaque : ${addplaque.toLowerCase()} existe déjà`, ephemeral: true});
            } else {
-                db.query(`INSERT INTO Vehicule(plaque, type, couleur) VALUES ("${addplaque.toLowerCase()}", "${addtype}", "${addcouleur.toLowerCase()}") `);
+                db.query(`INSERT INTO Vehicule(plaque, type, couleur) VALUES ("${addplaque.toLowerCase()}", "${addtype}", "${addcouleur}") `);
                 interaction.reply({ content: `Vehicule avec la plaque : ${addplaque.toLowerCase()} ajouté à la base de donnée.`, ephemeral: true});
             }
         });
