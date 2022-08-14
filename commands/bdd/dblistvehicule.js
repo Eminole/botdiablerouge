@@ -21,7 +21,13 @@ module.exports = {
         db.query(`SELECT plaque, type, couleur FROM Vehicule`, async (err, req) => {
             if (err) throw err;
             for ( ;req.length !== 0; ) {
-                if (req[0].couleur === 'null'){
+                if (req[0].type === 'null' && req[0].couleur === 'null') {
+                    const firstelement = req.shift();
+                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : Non enregistré\n`;
+                } else if (req[0].type === 'null' && req[0].couleur !== 'null') {
+                    const firstelement = req.shift();
+                    text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : ${firstelement.couleur.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                } else if (req[0].type !== 'null' && req[0].couleur === 'null') {
                     const firstelement = req.shift();
                     text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : ${firstelement.type}   =>Couleur : Non enregistré\n`;
                 } else {
