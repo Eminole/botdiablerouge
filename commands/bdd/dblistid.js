@@ -6,7 +6,8 @@ const db = new mysql.createConnection({
     password: process.env.DB_PWD_TOKEN,
     user: process.env.DB_USER_TOKEN,
     database: process.env.DB_NAME_TOKEN,
-    port: process.env.DB_PORT_TOKEN
+    port: process.env.DB_PORT_TOKEN,
+    multipleStatements: true
 });
 
 
@@ -20,11 +21,17 @@ module.exports = {
         let text = `Liste des Identités : \n`;
         db.query(`SELECT Id, prenom , nom FROM Identite`, async (err, req) => {
             if (err) throw err;
-            for ( ;req.length !== 0; ) {
+            for (let i = 0 ;req.length !== 0; i++) {
                 const firstelement = req.shift();
                 text = `${text}- ID : \`${firstelement.Id}\`   =>Prénom : ${firstelement.prenom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}   =>Nom : ${firstelement.nom.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                if(i === 40) {
+                    i=0;
+                    interaction.channel.send({ content: `${text}` });
+                    text = ``;
+                }
             };
-            interaction.reply({ content: `${text}`, ephemeral: true });
+            if(req.length === 0){interaction.channel.send({ content: `${text}` });}
+            interaction.reply( {content: 'Liste chargé!', ephemeral: true} );
         });        
     }
 };

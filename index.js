@@ -20,7 +20,8 @@ const db = new mysql.createConnection({
     password: process.env.DB_PWD_TOKEN,
     user: process.env.DB_USER_TOKEN,
     database: process.env.DB_NAME_TOKEN,
-    port: process.env.DB_PORT_TOKEN
+    port: process.env.DB_PORT_TOKEN,
+    multipleStatements: true
 });
 db.connect(function (err) {
     if (err) throw err;

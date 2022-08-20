@@ -7,7 +7,8 @@ const db = new mysql.createConnection({
     password: process.env.DB_PWD_TOKEN,
     user: process.env.DB_USER_TOKEN,
     database: process.env.DB_NAME_TOKEN,
-    port: process.env.DB_PORT_TOKEN
+    port: process.env.DB_PORT_TOKEN,
+    multipleStatements: true
 });
 
 module.exports = {
@@ -55,7 +56,7 @@ module.exports = {
             //JSON.stringify(result[0]).substr(-2, 1);
             if (JSON.stringify(result[0]).substr(-2, 1) === "1") {
                 interaction.reply({ content: `${addprenom.toLowerCase()} ${addnom.toLowerCase()} existe déjà`, ephemeral: true});
-           } else {
+            } else {
                 db.query(`INSERT INTO Identite(prenom, nom, age, sang) VALUES ("${addprenom.toLowerCase()}", "${addnom.toLowerCase()}", "${addage}", "${addsang}") `);
                 interaction.reply({ content: `${addprenom.toLowerCase()} ${addnom.toLowerCase()} ajouté à la base de donnée.`, ephemeral: true});
             }
