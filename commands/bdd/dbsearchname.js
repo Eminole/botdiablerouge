@@ -61,49 +61,70 @@ module.exports = {
                 } else {
                     db.query(`SELECT @idname := (SELECT Id FROM Identite WHERE prenom='${searchprenom.toLowerCase()}' AND nom='${searchnom.toLowerCase()}');SELECT DISTINCT info FROM Info WHERE id=@idname;SELECT DISTINCT Vehicule.* FROM Info,Vehicule WHERE id=@idname AND Info.plaque=Vehicule.plaque;SELECT DISTINCT Groupe.name FROM Info,Groupe WHERE id=@idname AND Info.idgroupe=Groupe.idgroupe`, function (err, resulta){
                         if (err) throw err;
-                        for (let i = 0 ;resulta[1].length !== 0; i++) {
-                            const firstelement = resulta[1].shift();
-                            if (firstelement.info === 'null' || firstelement.info === null) {
-                                text = text;
-                            } else {
-                                textinfo = `${textinfo}➡ ${firstelement.info}\n`;
+                        if (resulta[1].length === 0 && resulta[2].length === 0 && resulta[3].length === 0) {
+                            searchembed.addFields([
+                                { name: 'Information :', value: `Aucune Information!`},
+                            ])
+                        } else {
+                            if (resulta[1].length === 0) {
+                                textinfo = `Aucune Information!\n`;
+                            } else {    
+                                for (let i = 0 ;resulta[1].length !== 0; i++) {
+                                    const firstelement = resulta[1].shift();
+                                    if (firstelement.info === 'null' || firstelement.info === null) {
+                                        text = text;
+                                    } else {
+                                        textinfo = `${textinfo}➡ ${firstelement.info}\n`;
+                                    }
+                                };
                             }
-                        };
-                        for (let i = 0 ;resulta[2].length !== 0; i++) {
-                            const firstelement = resulta[2].shift();
-                            if (firstelement.plaque === 'null' || firstelement.plaque === null) {
-                                text = text;
+                            if (resulta[2].length === 0) {
+                                textgroupe = `Aucune Information!\n`;
+                                textvhtype = `Aucune Information!\n`;
+                                textvhcolor = `Aucune Information!\n`;
                             } else {
-                                textplaque = `${textplaque}➡ ${firstelement.plaque}\n`;
-                                if (firstelement.type === 'null' || firstelement.type === null) {
-                                    textvhtype = `${textvhtype}Inconnue\n`;
-                                } else {
-                                    textvhtype = `${textvhtype}${firstelement.type}\n`;
-                                }                                
-                                if (firstelement.couleur === 'null' || firstelement.couleur === null) {
-                                    textvhcolor = `${textvhcolor}Inconnue\n`;
-                                } else {
-                                    textvhcolor = `${textvhcolor}${firstelement.couleur.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
-                                }                                
+                                for (let i = 0 ;resulta[2].length !== 0; i++) {
+                                    const firstelement = resulta[2].shift();
+                                    if (firstelement.plaque === 'null' || firstelement.plaque === null) {
+                                        text = text;
+                                    } else {
+                                        textplaque = `${textplaque}➡ ${firstelement.plaque}\n`;
+                                        if (firstelement.type === 'null' || firstelement.type === null) {
+                                            textvhtype = `${textvhtype}Inconnue\n`;
+                                        } else {
+                                            textvhtype = `${textvhtype}${firstelement.type}\n`;
+                                        }                                
+                                        if (firstelement.couleur === 'null' || firstelement.couleur === null) {
+                                            textvhcolor = `${textvhcolor}Inconnue\n`;
+                                        } else {
+                                            textvhcolor = `${textvhcolor}${firstelement.couleur.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                                        }                                
+                                    }
+                                };
                             }
-                        };
-                        for (let i = 0 ;resulta[3].length !== 0; i++) {
-                            const firstelement = resulta[3].shift();
-                            if (firstelement.name === 'null' || firstelement.name === null) {
-                                text = text;
+                            if (resulta[3].length === 0) {
+                                textgroupe = `Aucune Information!\n`;
                             } else {
-                                textgroupe = `${textgroupe}➡ ${firstelement.name.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                                for (let i = 0 ;resulta[3].length !== 0; i++) {
+                                    const firstelement = resulta[3].shift();
+                                    if (firstelement.name === 'null' || firstelement.name === null) {
+                                        text = text;
+                                    } else {
+                                        textgroupe = `${textgroupe}➡ ${firstelement.name.replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
+                                    }
+                                };
                             }
-                        };
-                        searchembed.addFields([
-                            { name: 'Information :', value: `${textinfo}`},
-                            { name: 'Plaque :', value: `${textplaque}`, inline: true},
-                            { name: 'Type :', value: `${textvhtype}`, inline: true},
-                            { name: 'Couleur :', value: `${textvhcolor}`, inline: true},
-                            { name: 'Groupe :', value: `${textgroupe}`}
-                        ])
+
+                            searchembed.addFields([
+                                { name: 'Information :', value: `${textinfo}`},
+                                { name: 'Plaque :', value: `${textplaque}`, inline: true},
+                                { name: 'Type :', value: `${textvhtype}`, inline: true},
+                                { name: 'Couleur :', value: `${textvhcolor}`, inline: true},
+                                { name: 'Groupe :', value: `${textgroupe}`}
+                            ])
+                        }
                         interaction.reply( {embeds: [searchembed], ephemeral: true} );
-                    });
+                    });   
                 }
             });
         };
