@@ -21,7 +21,7 @@ module.exports = {
         let text = `Liste des Véhicules : \n`;
         db.query(`SELECT plaque, type, couleur FROM Vehicule`, async (err, req) => {
             if (err) throw err;
-            for ( ;req.length !== 0; ) {
+            for (let i = 0 ;req.length !== 0; i++) {
                 if (req[0].type === 'null' && req[0].couleur === 'null') {
                     const firstelement = req.shift();
                     text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : Non enregistré   =>Couleur : Non enregistré\n`;
@@ -35,8 +35,14 @@ module.exports = {
                     const firstelement = req.shift();
                     text = `${text}- Plaque : \`${firstelement.plaque.toUpperCase()}\`   =>Type : ${firstelement.type}   =>Couleur : ${firstelement.couleur.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`;
                 }
+                if(i === 40) {
+                    i=0;
+                    interaction.channel.send({ content: `${text}` });
+                    text = ``;
+                }
             };
-            interaction.reply({ content: `${text}`, ephemeral: true });
+            if(req.length === 0){interaction.channel.send({ content: `${text}` });}
+            interaction.reply( {content: 'Liste chargé!', ephemeral: true} );
         });        
     }
 };
