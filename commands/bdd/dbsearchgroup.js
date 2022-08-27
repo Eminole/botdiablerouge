@@ -47,14 +47,14 @@ module.exports = {
                 if (JSON.stringify(result[0]).substr(-2, 1) === "0") {
                     interaction.reply({ content: `${searchgroup.toLowerCase()} n'existe pas`, ephemeral: true});
                 } else {
-                    db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${searchgroup.toLowerCase()}');SELECT DISTINCT Vehicule.* FROM Info,Vehicule WHERE idgroupe=@idgroup AND Info.plaque=Vehicule.plaque;SELECT DISTINCT Identite.* FROM Info,Identite WHERE idgroupe=@idgroup AND Info.id=Identite.Id`, function (err, resulta){
+                    db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${searchgroup.toLowerCase()}');SELECT DISTINCT info FROM Info WHERE idgroupe=@idgroup;SELECT DISTINCT Vehicule.* FROM Info,Vehicule WHERE idgroupe=@idgroup AND Info.plaque=Vehicule.plaque;SELECT DISTINCT Identite.* FROM Info,Identite WHERE idgroupe=@idgroup AND Info.id=Identite.Id`, function (err, resulta){
                         if (err) throw err;
-                        if (resulta[1].length === 0 && resulta[2].length === 0 ) {
+                        if (resulta[1].length === 0 && resulta[2].length === 0 && resulta[3].length === 0) {
                             searchembed.addFields([
                                 { name: 'Information :', value: `Aucune Information!`},
                             ])
                         } else {
-                            if (resulta[1].length === 0) {
+                            if (resulta[2].length === 0) {
                                 textplaque = `Aucune Information!`;
                                 textvhtype = `Aucune Information!`;
                                 textvhcolor = `Aucune Information!`;
@@ -78,7 +78,7 @@ module.exports = {
                                     }
                                 };
                             }
-                            if (resulta[2].length === 0) {
+                            if (resulta[3].length === 0) {
                                 textname = `Aucune Information!`;
                             } else {
                                 for (let i = 0 ;resulta[3].length !== 0; i++) {
