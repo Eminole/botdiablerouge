@@ -57,7 +57,7 @@ module.exports = {
                 if (err) throw err;
                 //JSON.stringify(result[0]).substr(-2, 1);
                 if (JSON.stringify(result[0]).substr(-2, 1) === "0") {
-                    interaction.reply({ content: `${searchprenom.toLowerCase()} ${searchnom.toLowerCase()} n'existe déjà`, ephemeral: true});
+                    interaction.reply({ content: `${searchprenom.toLowerCase()} ${searchnom.toLowerCase()} n'existe pas`, ephemeral: true});
                 } else {
                     db.query(`SELECT @idname := (SELECT Id FROM Identite WHERE prenom='${searchprenom.toLowerCase()}' AND nom='${searchnom.toLowerCase()}');SELECT DISTINCT info FROM Info WHERE id=@idname;SELECT DISTINCT Vehicule.* FROM Info,Vehicule WHERE id=@idname AND Info.plaque=Vehicule.plaque;SELECT DISTINCT Groupe.name FROM Info,Groupe WHERE id=@idname AND Info.idgroupe=Groupe.idgroupe`, function (err, resulta){
                         if (err) throw err;
@@ -67,11 +67,13 @@ module.exports = {
                             ])
                         } else {
                             if (resulta[1].length === 0) {
-                                textinfo = `Aucune Information!\n`;
-                            } else {    
+                                textinfo = `Aucune Information!`;
+                            } else {
+                                let infolength = resulta[1].length;
                                 for (let i = 0 ;resulta[1].length !== 0; i++) {
                                     const firstelement = resulta[1].shift();
-                                    if (firstelement.info === 'null' || firstelement.info === null) {
+                                    if(firstelement.info === 'null' || firstelement.info === null) {
+                                        if (infolength === 1) {textinfo = `Aucune Information!`;};
                                         text = text;
                                     } else {
                                         textinfo = `${textinfo}➡ ${firstelement.info}\n`;
@@ -79,9 +81,9 @@ module.exports = {
                                 };
                             }
                             if (resulta[2].length === 0) {
-                                textgroupe = `Aucune Information!\n`;
-                                textvhtype = `Aucune Information!\n`;
-                                textvhcolor = `Aucune Information!\n`;
+                                textplaque = `Aucune Information!`;
+                                textvhtype = `Aucune Information!`;
+                                textvhcolor = `Aucune Information!`;
                             } else {
                                 for (let i = 0 ;resulta[2].length !== 0; i++) {
                                     const firstelement = resulta[2].shift();
@@ -103,7 +105,7 @@ module.exports = {
                                 };
                             }
                             if (resulta[3].length === 0) {
-                                textgroupe = `Aucune Information!\n`;
+                                textgroupe = `Aucune Information!`;
                             } else {
                                 for (let i = 0 ;resulta[3].length !== 0; i++) {
                                     const firstelement = resulta[3].shift();
@@ -114,7 +116,6 @@ module.exports = {
                                     }
                                 };
                             }
-
                             searchembed.addFields([
                                 { name: 'Information :', value: `${textinfo}`},
                                 { name: 'Plaque :', value: `${textplaque}`, inline: true},

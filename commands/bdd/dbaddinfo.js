@@ -155,7 +155,7 @@ module.exports = {
                         if (JSON.stringify(result[0]).substr(-3, 1) === "0") {
                             interaction.reply({ content: `Erreur de saisie dans les données`, ephemeral: true});
                         } else {
-                            db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,"null" ,"${addplaque.toLowerCase()}" , @idgroup)`);
+                            db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,${addprenom} ,"${addplaque.toLowerCase()}" , @idgroup)`);
                             interaction.reply({ content: `Liaison d'information rajouté :\nPlaque : ${addplaque.toUpperCase()}\nGroupe : ${addgrpname.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\nInformation Divers : ${addinfo}`, ephemeral: true});
                         }
                     });
@@ -165,7 +165,7 @@ module.exports = {
                         if (JSON.stringify(result[0]).substr(-3, 1) === "0") {
                             interaction.reply({ content: `Erreur de saisie dans les données`, ephemeral: true});
                         } else {
-                            db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,"null" ,"${addplaque.toLowerCase()}" , @idgroup)`);
+                            db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,${addprenom} ,"${addplaque.toLowerCase()}" , @idgroup)`);
                             interaction.reply({ content: `Liaison d'information rajouté :\nPlaque : ${addplaque.toUpperCase()}\nGroupe : ${addgrpname.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\n`, ephemeral: true});
                         }
                     });
@@ -177,7 +177,7 @@ module.exports = {
                         if (JSON.stringify(result[0]).substr(-2, 1) === "0") {
                             interaction.reply({ content: `Erreur de saisie dans les données`, ephemeral: true});
                         } else {
-                            db.query(`INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,"null" ,"${addplaque.toLowerCase()}" , ${addgrpname})`);
+                            db.query(`INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,${addprenom} ,"${addplaque.toLowerCase()}" , ${addgrpname})`);
                             interaction.reply({ content: `Liaison d'information rajouté :\nPlaque : ${addplaque.toUpperCase()}\nInformation Divers : ${addinfo}`, ephemeral: true});
                         }
                     });
@@ -192,7 +192,7 @@ module.exports = {
                     if (JSON.stringify(result[0]).substr(-2, 1) === "0") {
                         interaction.reply({ content: `Erreur de saisie dans les données`, ephemeral: true});
                     } else {
-                        db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,"null" ,"${addplaque}" , @idgroup)`);
+                        db.query(`SELECT @idgroup := (SELECT idgroupe FROM Groupe WHERE name='${addgrpname.toLowerCase()}');INSERT INTO Info(info, id, plaque, idgroupe) VALUES ("${addinfo}" ,${addprenom} ,"${addplaque}" , @idgroup)`);
                         interaction.reply({ content: `Liaison d'information rajouté :\nGroupe : ${addgrpname.toLowerCase().replace(/(^\w|\s\w)/g, firstLetter => firstLetter.toUpperCase())}\nInformation Divers : ${addinfo}`, ephemeral: true});
                     }
                 });             
