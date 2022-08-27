@@ -14,7 +14,7 @@ const db = new mysql.createConnection({
 module.exports = {
     name: 'searchgroup',
     category: 'bdd',
-    permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ManageWebhooks],
+    permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.CreatePrivateThreads],
     description: 'Recherche les infos lié à un groupe',
     //run(client, message, args) {},
     options: [
